@@ -9,7 +9,7 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      <Text  >dog</Text>
+      <Text  >harsh is pig</Text>
       <Image source={{uri:"https://i.pinimg.com/474x/a2/f8/91/a2f891e650ea46937e090b6d160769cc.jpg"}}/>
     </View>
   );
