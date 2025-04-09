@@ -1,5 +1,5 @@
-import { Text, View } from "react-native";
-import { Image } from "expo-image";
+import { Image, Text, View } from "react-native";
+import { Link } from "expo-router";
 export default function Index() {
   return (
     <View
@@ -9,8 +9,9 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      <Text  >harsh is pig</Text>
-      <Image source={{uri:"https://i.pinimg.com/474x/a2/f8/91/a2f891e650ea46937e090b6d160769cc.jpg"}}/>
+      <Text>harsh is big too much big pig</Text>
+      <Link href="/(auth)/signup">SignUp </Link>
+      <Link href="/(auth)">Login</Link>
     </View>
   );
 }
