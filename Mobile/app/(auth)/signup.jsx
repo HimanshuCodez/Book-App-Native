@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   ActivityIndicator,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 import styles from "@/assets/styles/signup.styles";
@@ -17,12 +18,16 @@ import { useAuthStore } from "@/store/authStore";
 
 export default function Signup() {
   const [username, setUsername] = useState("");
+  const [address, setAddress] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 const {user,isLoading,register} = useAuthStore()
   const router = useRouter()
-  const handleSignup = () => {};
+  const handleSignup = async() => {
+    const result = await register(username,email,password,address)
+    if (!result.success) Alert.alert("Error" , result.error)
+  };
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
@@ -55,6 +60,7 @@ const {user,isLoading,register} = useAuthStore()
                 />
               </View>
             </View>
+           
             {/* email input */}
             <View style={styles.inputGroup}>
               <Text style={styles.label}>Email</Text>
@@ -108,15 +114,34 @@ const {user,isLoading,register} = useAuthStore()
                 </TouchableOpacity>
               </View>
             </View>
+            <View style={styles.inputGroup}>
+              <Text style={styles.label}>Shipping Address</Text>
+              <View style={styles.inputContainer}>
+                <Ionicons
+                  name="person-outline"
+                  size={20}
+                  color={COLORS.primary}
+                  style={styles.inputIcon}
+                />
+                <TextInput
+                  style={styles.input}
+                  placeholder="D-20 Apartments..... "
+                  placeholderTextColor={COLORS.placeholderText}
+                  value={address}
+                  onChangeText={setAddress}
+                  autoCapitalize="none"
+                />
+              </View>
+            </View>
             <TouchableOpacity
               style={styles.button}
-              onPress={handleLogin}
+              onPress={handleSignup}
               disabled={isLoading}
             >
               {isLoading ? (
                 <ActivityIndicator color="#fff" />
               ) : (
-                <Text style={styles.buttonText}>Login</Text>
+                <Text style={styles.buttonText}>Sign Up</Text>
               )}
             </TouchableOpacity>
             <View style={styles.footer}>

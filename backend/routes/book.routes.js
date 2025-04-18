@@ -2,12 +2,12 @@ import express from 'express';
 import User from '../models/user.model.js';
 import Book from '../models/book.model.js';
 import authenticateToken from './userAuth.routes.js';
-import Redis from 'ioredis'
+// import Redis from 'ioredis'
 const router = express.Router();
-const redisClient = new Redis()
-redisClient.on('error', (err) => {
-  console.log('Redis Client Error', err);
-});
+// const redisClient = new Redis()
+// redisClient.on('error', (err) => {
+//   console.log('Redis Client Error', err);
+// });
 //admin routes
 router.post("/add-book", authenticateToken,async(req,res)=>{
     try {
@@ -105,21 +105,21 @@ router.get('/get-all-books',async (req, res)=>{
         const cachedBooks = await redisClient.get(cacheKey);
 
         
-        if (cachedBooks) {
-            // If we have cached data, return it
-            return res.json({
-                status: "successfully fetched books from cache",
-                data: JSON.parse(cachedBooks),
-                cached: true
-            });
-        }
+        // if (cachedBooks) {
+        //     // If we have cached data, return it
+        //     return res.json({
+        //         status: "successfully fetched books from cache",
+        //         data: JSON.parse(cachedBooks),
+        //         cached: true
+        //     });
+        // }
         //db call
         const books = await Book.find().sort({createdAt: -1});
-        await redisClient.setex(cacheKey, 3600, JSON.stringify(books));
+        // await redisClient.setex(cacheKey, 3600, JSON.stringify(books));
         res.json({
             status: "succesfully fetched books",
             data: books,
-            cached: false
+            // cached: false
         });
     } catch (error) {
         console.log("err getAllBooks", error);
@@ -130,20 +130,20 @@ router.get('/get-recent-books',async (req, res)=>{
     try {
         const cacheKey = 'recent_books';
         const cachedBooks = await redisClient.get(cacheKey);
-        if (cachedBooks) {
-            // If we have cached data, return it
-            return res.json({
-                status: "successfully fetched recent books from cache",
-                data: JSON.parse(cachedBooks),
-                cached: true
-            });
-        }
+        // if (cachedBooks) {
+        //     // If we have cached data, return it
+        //     return res.json({
+        //         status: "successfully fetched recent books from cache",
+        //         data: JSON.parse(cachedBooks),
+        //         cached: true
+        //     });
+        // }
         const books = await Book.find().sort({createdAt: -1}).limit(4);
-        await redisClient.setex(cacheKey, 3600, JSON.stringify(books));
+        // await redisClient.setex(cacheKey, 3600, JSON.stringify(books));
         res.json({
             status: "succesfully fetched recent books",
             data: books,
-            cached: false
+            // cached: false
         });
     } catch (error) {
         console.log("err getAllBooks", error);
@@ -206,8 +206,8 @@ router.get('/search', async (req, res) => {
     }
   });
 
-  const clearBooksCache = async () => {
-    await redisClient.del('all_books');
-    await redisClient.del('recent_books');
-};
+//   const clearBooksCache = async () => {
+//     await redisClient.del('all_books');
+//     await redisClient.del('recent_books');
+// };
 export default router;
