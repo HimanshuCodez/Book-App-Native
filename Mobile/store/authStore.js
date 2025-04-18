@@ -11,7 +11,7 @@ export const useAuthStore = create((set) => ({
     set({ isLoading: true });
 
     try {
-      const response = await axios.post("http://localhost:3000/api/v1/register", {
+      const response = await axios.post("https://book-app-native.onrender.com/api/v1/register", {
         username,
         email,
         password,
