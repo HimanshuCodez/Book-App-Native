@@ -7,20 +7,23 @@ import bookRoute from './routes/book.routes.js';
 import favouriteRoute from './routes/favourite.routes.js';
 import cartRoute from './routes/cart.routes.js';
 import orderRoute from './routes/order.routes.js';
-import paymentRoute from './routes/payment.routes.js'; // Correctly import the route
+import paymentRoute from './routes/payment.routes.js'; 
 import path from "path";
-
 import BookRequest from './routes/bookRequests.routes.js'
 import { fileURLToPath } from "url";
+import job from './cron.js';
  // Import PDFKit for invoice generation
 
  import salesReportRoutes from "./routes/salesReport.routes.js";
-
-dotenv.config();
+ dotenv.config();
+job.start()
 
 const app = express();
 
 app.use(cors());
+app.get("/", (req, res) => {
+  res.status(200).send("Backend is alive");
+});
 
 const PORT = process.env.PORT || 1000;
 const URI = process.env.URI;
