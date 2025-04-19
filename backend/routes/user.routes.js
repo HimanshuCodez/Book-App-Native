@@ -74,11 +74,13 @@ router.post("/sign-in", async (req, res) => {
 
         // Send response with token and user details
         res.status(200).json({
+            success: true,
             message: "Login successful",
             id: user._id,
             role: user.role,
             token: token
-        });
+          });
+          
 
     } catch (error) {
         console.error("Error during login:", error);

@@ -30,38 +30,42 @@ export const useAuthStore = create((set) => ({
 
   login: async (email, password) => {
     set({ isLoading: true });
-
+  
     try {
       const response = await axios.post("https://book-app-native.onrender.com/api/v1/sign-in", {
         email,
         password
       });
-
-      const { token, id,  } = response.data;
-
+  
+      const { token, id } = response.data;
+  
       const userInfo = await axios.get("https://book-app-native.onrender.com/api/v1/get-user-info", {
         headers: {
           Authorization: `Bearer ${token}`,
           id: id
         }
       });
-
+  
       const user = userInfo.data;
-
+  
       await AsyncStorage.setItem("token", token);
       await AsyncStorage.setItem("user", JSON.stringify(user));
-
+  
       set({
         user,
         token,
         isLoading: false
       });
-
+  
+      return { success: true }; // 👈 Return this
     } catch (error) {
       console.error("Login failed:", error.message);
       set({ isLoading: false });
+  
+      return { success: false, error: error.response?.data?.message || "Login failed" }; // 👈 Return error
     }
   },
+  
   loadUser: async () => {
     set({ isLoading: true });
     try {
