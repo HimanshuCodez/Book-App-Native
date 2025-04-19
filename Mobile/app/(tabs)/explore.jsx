@@ -31,20 +31,36 @@ export default function BooksScreen() {
   const fetchBooks = async () => {
     try {
       setError(null);
-      const response = await axios.get('http://localhost:4000/api/v1/get-all-books');
-      if (response.data.status.includes('success')) {
-        setBooks(response.data.data);
+      setLoading(true);
+      console.log("Fetching books...");
+  
+      const response = await axios.get('https://book-app-native.onrender.com/api/v1/get-all-books');
+  
+      console.log("API response:", response.data); // 👈 Add this
+  
+      // Check if data is in the correct format
+      if (response.data.status === 'success') {
+        if (Array.isArray(response.data.data)) {
+          console.log("Books fetched:", response.data.data.length); // 👈 Add this
+          setBooks(response.data.data);
+        } else {
+          console.warn("Data received but not an array:", response.data.data);
+          setError('Unexpected response format');
+        }
       } else {
+        console.warn("Status not success:", response.data.status);
         setError('Failed to fetch books');
       }
+  
     } catch (err) {
-      console.error('Error fetching books:', err);
+      console.error('❌ Error fetching books:', err?.response?.data || err.message);
       setError('Network error. Please try again.');
     } finally {
       setLoading(false);
       setRefreshing(false);
     }
   };
+  
 
   const onRefresh = () => {
     setRefreshing(true);
@@ -75,7 +91,7 @@ export default function BooksScreen() {
           </View>
         )}
         
-        {item.genre && (
+        {item.category && (
           <View style={styles.genreContainer}>
             <Text style={styles.genreText}>{item.category}</Text>
           </View>

@@ -117,8 +117,9 @@ router.get('/get-all-books',async (req, res)=>{
         const books = await Book.find().sort({createdAt: -1});
         // await redisClient.setex(cacheKey, 3600, JSON.stringify(books));
         res.json({
-            status: "succesfully fetched books",
+            status: "success",
             data: books,
+           
             // cached: false
         });
     } catch (error) {
@@ -128,8 +129,8 @@ router.get('/get-all-books',async (req, res)=>{
 })
 router.get('/get-recent-books',async (req, res)=>{
     try {
-        const cacheKey = 'recent_books';
-        const cachedBooks = await redisClient.get(cacheKey);
+        // const cacheKey = 'recent_books';
+        // const cachedBooks = await redisClient.get(cacheKey);
         // if (cachedBooks) {
         //     // If we have cached data, return it
         //     return res.json({
