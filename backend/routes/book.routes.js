@@ -101,8 +101,8 @@ router.delete("/delete-book", authenticateToken,async(req,res)=>{
 //public routes
 router.get('/get-all-books',async (req, res)=>{
     try {
-        const cacheKey = 'all_books';
-        const cachedBooks = await redisClient.get(cacheKey);
+        // const cacheKey = 'all_books';
+        // const cachedBooks = await redisClient.get(cacheKey);
 
         
         // if (cachedBooks) {

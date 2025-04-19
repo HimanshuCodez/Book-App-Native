@@ -6,20 +6,20 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useEffect } from "react";
 
 export default function RootLayout() {
-  const router = useRouter()
-  const segments = useSegments()
-  const {loadUser,user,token}= useAuthStore()
-useEffect(() => {
-  loadUser()
-}, [])
+  const router = useRouter();
+  const segments = useSegments();
+  const { loadUser, user, token } = useAuthStore();
+  useEffect(() => {
+    loadUser();
+  }, []);
 
-//based on auth state
-useEffect(() => {
- const inAuthScreen = segments[0] === "(auth)"
- const isSignedIn = user && token
- if (!isSignedIn && !inAuthScreen) router.replace("/(auth)")
- else if (isSignedIn && inAuthScreen) router.replace("/(tabs)")
-}, [user,token,segments])
+  //based on auth state
+  useEffect(() => {
+    const inAuthScreen = segments[0] === "(auth)";
+    const isSignedIn = user && token;
+    if (!isSignedIn && !inAuthScreen) router.replace("/(auth)");
+    else if (isSignedIn && inAuthScreen) router.replace("/(tabs)");
+  }, [user, token, segments]);
 
   return (
     <SafeAreaProvider>
