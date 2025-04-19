@@ -18,9 +18,36 @@ export const useAuthStore = create((set) => ({
         address
       });
 
-      const { user, token } = response.data;
+      console.log("Register response:", response.data);
+      set({ isLoading: false });
 
-   
+    } catch (error) {
+      console.error("Registration failed:", error.message);
+      set({ isLoading: false });
+    }
+  },
+
+
+  login: async (email, password) => {
+    set({ isLoading: true });
+
+    try {
+      const response = await axios.post("https://book-app-native.onrender.com/api/v1/sign-in", {
+        email,
+        password
+      });
+
+      const { token, id,  } = response.data;
+
+      const userInfo = await axios.get("https://book-app-native.onrender.com/api/v1/get-user-info", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          id: id
+        }
+      });
+
+      const user = userInfo.data;
+
       await AsyncStorage.setItem("token", token);
       await AsyncStorage.setItem("user", JSON.stringify(user));
 
@@ -31,12 +58,10 @@ export const useAuthStore = create((set) => ({
       });
 
     } catch (error) {
-      console.error("Registration failed:", error.message);
+      console.error("Login failed:", error.message);
       set({ isLoading: false });
     }
   },
-
-  // ✅ Load user from AsyncStorage (call this on app start)
   loadUser: async () => {
     set({ isLoading: true });
     try {
@@ -54,7 +79,6 @@ export const useAuthStore = create((set) => ({
     }
   },
 
-  // ✅ Logout
   logout: async () => {
     await AsyncStorage.removeItem("token");
     await AsyncStorage.removeItem("user");
