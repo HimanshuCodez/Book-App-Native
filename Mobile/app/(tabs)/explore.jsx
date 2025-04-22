@@ -24,43 +24,34 @@ export default function BooksScreen() {
   const [error, setError] = useState(null);
   const router = useRouter();
 
-  useEffect(() => {
-    fetchBooks();
-  }, []);
+  
 
   const fetchBooks = async () => {
     try {
       setError(null);
       setLoading(true);
-      console.log("Fetching books...");
   
       const response = await axios.get('https://book-app-native.onrender.com/api/v1/get-all-books');
-  
-      console.log("API response:", response.data); // 👈 Add this
-  
-      // Check if data is in the correct format
       if (response.data.status === 'success') {
         if (Array.isArray(response.data.data)) {
-          console.log("Books fetched:", response.data.data.length); // 👈 Add this
           setBooks(response.data.data);
         } else {
-          console.warn("Data received but not an array:", response.data.data);
           setError('Unexpected response format');
         }
       } else {
-        console.warn("Status not success:", response.data.status);
         setError('Failed to fetch books');
       }
   
     } catch (err) {
-      console.error('❌ Error fetching books:', err?.response?.data || err.message);
       setError('Network error. Please try again.');
     } finally {
       setLoading(false);
       setRefreshing(false);
     }
   };
-  
+  useEffect(() => {
+    fetchBooks();
+  }, []);
 
   const onRefresh = () => {
     setRefreshing(true);
@@ -113,7 +104,7 @@ export default function BooksScreen() {
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>My Library</Text>
+        <Text style={styles.headerTitle}>Bookishh 📚 👻</Text>
         <TouchableOpacity onPress={() => router.push('/books/search')}>
           <Ionicons name="search-outline" size={24} color="#333" />
         </TouchableOpacity>

@@ -142,7 +142,7 @@ router.get('/get-recent-books',async (req, res)=>{
         const books = await Book.find().sort({createdAt: -1}).limit(4);
         // await redisClient.setex(cacheKey, 3600, JSON.stringify(books));
         res.json({
-            status: "succesfully fetched recent books",
+            status: "success",
             data: books,
             // cached: false
         });

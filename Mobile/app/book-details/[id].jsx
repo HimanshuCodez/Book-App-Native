@@ -13,6 +13,7 @@ import {
 import { useLocalSearchParams, router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
+import { styles } from '@/assets/styles/detailsbook.styles';
 
 
 export default function BookDetailScreen() {
@@ -29,7 +30,7 @@ export default function BookDetailScreen() {
     try {
       setLoading(true);
       setError(null);
-      const response = await axios.get(`https://book-app-native.onrender.com/${id}`);
+      const response = await axios.get(`https://book-app-native.onrender.com/api/v1/get-book-by-id/${id}`);
       if (response.data && response.data.data) {
         setBook(response.data.data);
       } else {
@@ -89,14 +90,14 @@ export default function BookDetailScreen() {
       <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
         <View style={styles.bookImageSection}>
           <Image 
-            source={{ uri: book.coverImage || 'https://via.placeholder.com/300x450' }} 
+            source={{ uri: book.url || 'https://via.placeholder.com/300x450' }} 
             style={styles.bookImage}
             resizeMode="cover"
           />
         </View>
 
         <View style={styles.infoSection}>
-          <Text style={styles.bookTitle}>{book.title}</Text>
+          <Text style={styles.bookTitle}>{book.name}</Text>
           <Text style={styles.authorText}>by {book.author || 'Unknown'}</Text>
           
           {book.rating && (
@@ -115,26 +116,14 @@ export default function BookDetailScreen() {
           )}
 
           <View style={styles.detailsRow}>
-            {book.genre && (
+            {book.category && (
               <View style={styles.detailItem}>
                 <Text style={styles.detailLabel}>Genre</Text>
-                <Text style={styles.detailValue}>{book.genre}</Text>
+                <Text style={styles.detailValue}>{book.category}</Text>
               </View>
             )}
             
-            {book.publishedYear && (
-              <View style={styles.detailItem}>
-                <Text style={styles.detailLabel}>Published</Text>
-                <Text style={styles.detailValue}>{book.publishedYear}</Text>
-              </View>
-            )}
-            
-            {book.pages && (
-              <View style={styles.detailItem}>
-                <Text style={styles.detailLabel}>Pages</Text>
-                <Text style={styles.detailValue}>{book.pages}</Text>
-              </View>
-            )}
+           
           </View>
 
           <View style={styles.section}>
