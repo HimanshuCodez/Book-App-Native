@@ -102,7 +102,24 @@ router.get("/get-user-info",authenticateToken, async (req, res) => {
         res.status(500).json({ message: "get user info error" });
     }
 });
-
+// Backend (hypothetical)
+router.put('/update-profile', authenticateToken, async (req, res) => {
+    try {
+      const { id } = req.headers;
+      const { username, email } = req.body;
+      if (!username || !email) {
+        return res.status(400).json({ message: 'Username and email are required' });
+      }
+      const updatedUser = await User.findByIdAndUpdate(id, { username, email }, { new: true });
+      if (!updatedUser) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+      return res.status(200).json({ message: 'Profile updated successfully', updatedUser });
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  });
 
 router.put("/update-address", authenticateToken, async (req, res) => {
     try {
