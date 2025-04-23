@@ -9,7 +9,7 @@ export const useAuthStore = create((set) => ({
 
   register: async (username, email, password, address) => {
     set({ isLoading: true });
-
+  
     try {
       const response = await axios.post("https://book-app-native.onrender.com/api/v1/register", {
         username,
@@ -17,15 +17,23 @@ export const useAuthStore = create((set) => ({
         password,
         address
       });
-
+  
       console.log("Register response:", response.data);
       set({ isLoading: false });
-
+  
+      return { success: true };
+  
     } catch (error) {
       console.error("Registration failed:", error.message);
       set({ isLoading: false });
+  
+      return {
+        success: false,
+        error: error.response?.data?.message || "Registration failed",
+      };
     }
   },
+  
 
 
   login: async (email, password) => {
@@ -57,12 +65,12 @@ export const useAuthStore = create((set) => ({
         isLoading: false
       });
   
-      return { success: true }; // 👈 Return this
+      return { success: true };
     } catch (error) {
       console.error("Login failed:", error.message);
       set({ isLoading: false });
   
-      return { success: false, error: error.response?.data?.message || "Login failed" }; // 👈 Return error
+      return { success: false, error: error.response?.data?.message || "Login failed" }; 
     }
   },
   

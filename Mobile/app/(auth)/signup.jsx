@@ -1,4 +1,5 @@
 
+
 import {
   View,
   Text,
@@ -27,7 +28,12 @@ const {user,isLoading,register} = useAuthStore()
   const router = useRouter()
   const handleSignup = async() => {
     const result = await register(username,email,password,address)
-    if (!result.success) Alert.alert("Error" , result.error)
+    if (result.success) {
+      router.replace("/login");
+    } else {
+      Alert.alert("Error", result.error);
+    }
+    
   };
   return (
     <KeyboardAvoidingView
@@ -37,7 +43,7 @@ const {user,isLoading,register} = useAuthStore()
       <View style={styles.container}>
         <View style={styles.card}>
           <View style={styles.header}>
-            <Text style={styles.title}>Bookishh 📚 👻</Text>
+            <Text style={styles.title}>Bookishh 📚</Text>
             <Text style={styles.subtitle}>Find your favourite books</Text>
           </View>
           <View style={styles.formContainer}>
