@@ -104,7 +104,7 @@ export default function BooksScreen() {
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Bookishh 📚 👻</Text>
+        <Text style={styles.headerTitle}>Bookishh 📚 </Text>
         <TouchableOpacity onPress={() => router.push('/books/search')}>
           <Ionicons name="search-outline" size={24} color="#333" />
         </TouchableOpacity>
