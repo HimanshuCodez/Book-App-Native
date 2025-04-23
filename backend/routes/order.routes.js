@@ -62,7 +62,7 @@ for (const orderId of orderIds) {
 });
 
 
-router.get('/get-order-history',  async (req, res) => {
+router.get('/get-order-history', authenticateToken, async (req, res) => {
 
     try {
         const id = req.user.id;
@@ -70,6 +70,7 @@ router.get('/get-order-history',  async (req, res) => {
             path: "orders",
             populate: { path: "book" },
         })
+        console.log("user data backend",userData)
         const ordersData = userData.orders.reverse();
         return res.json({
             status: "success",

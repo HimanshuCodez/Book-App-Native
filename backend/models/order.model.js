@@ -3,11 +3,11 @@ import mongoose from "mongoose";
 const orderSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'user',
+        ref: 'User',
     },
     book: [{  
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'books',
+        ref: 'Book',
     }],
     status: {
         type: String,
@@ -17,4 +17,4 @@ const orderSchema = new mongoose.Schema({
 
 }, { timestamps: true });
 
-export default mongoose.model('order', orderSchema);
+export default mongoose.model('Order', orderSchema);
