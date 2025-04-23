@@ -62,10 +62,10 @@ for (const orderId of orderIds) {
 });
 
 
-router.get('/get-order-history', authenticateToken, async (req, res) => {
+router.get('/get-order-history',  async (req, res) => {
 
     try {
-        const { id } = req.headers;
+        const id = req.user.id;
         const userData = await User.findById(id).populate({
             path: "orders",
             populate: { path: "book" },

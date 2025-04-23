@@ -100,6 +100,8 @@ const OrderCard = React.memo(({ item }) => {
 
 const ProfileScreen = () => {
   const { user, token, logout } = useAuthStore();
+
+  
   const router = useRouter();
   const [address, setAddress] = useState(user?.address || '');
   const [username, setUsername] = useState(user?.username || '');
@@ -133,7 +135,7 @@ const ProfileScreen = () => {
       setLoadingFavorites(true);
       setError(null);
   
-      const response = await axios.get('http://localhost:4000/api/v1/get-favourites-books', {
+      const response = await axios.get('https://book-app-native.onrender.com/api/v1/get-favourites-books', {
         headers: {
           Authorization: `Bearer ${token}`,
         }
@@ -162,10 +164,11 @@ const ProfileScreen = () => {
       setError(null);
       const response = await axios.get('https://book-app-native.onrender.com/api/v1/get-order-history', {
         headers: {
-          id: user._id,
           Authorization: `Bearer ${token}`,
         },
+        
       });
+      console.log(response);
       if (response.data.status === 'success') {
         setOrderHistory(response.data.data);
       } else {
