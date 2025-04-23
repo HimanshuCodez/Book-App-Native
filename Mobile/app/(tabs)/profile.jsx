@@ -34,37 +34,38 @@ const FavoriteBookCard = React.memo(({ item, isFavorite, onToggleFavorite, onPre
 
   return (
     <Animated.View style={[styles.favoriteCard, animatedStyle]} entering={FadeIn}>
-      <TouchableOpacity
-        activeOpacity={0.7}
-        onPress={() => {
-          scale.value = withSpring(0.95, {}, () => (scale.value = withSpring(1)));
-          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-          onPress(item._id);
-        }}
-      >
-            </TouchableOpacity>
-        <Image
-          source={{ uri: item.url || 'https://via.placeholder.com/150x200' }}
-          style={styles.favoriteImage}
-          contentFit="cover"
-          cachePolicy="memory-disk"
-        />
-        <TouchableOpacity
-          style={styles.favoriteIcon}
-          onPress={() => {
-            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-            onToggleFavorite(item._id, isFavorite);
-          }}
-        >
-          <Ionicons
-            name={isFavorite ? 'heart' : 'heart-outline'}
-            size={24}
-            color={isFavorite ? '#FF6B6B' : '#6c757d'}
-          />
-        </TouchableOpacity>
-        <Text style={styles.favoriteTitle} numberOfLines={1}>{item.name}</Text>
-        <Text style={styles.favoriteAuthor} numberOfLines={1}>by {item.author}</Text>
-      </Animated.View>
+  <TouchableOpacity
+    activeOpacity={0.7}
+    onPress={() => {
+      scale.value = withSpring(0.95, {}, () => (scale.value = withSpring(1)));
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+      onPress(item._id);
+    }}
+  >
+    <Image
+      source={{ uri: item.url || 'https://via.placeholder.com/150x200' }}
+      style={styles.favoriteImage}
+      contentFit="cover"
+      cachePolicy="memory-disk"
+    />
+    <TouchableOpacity
+      style={styles.favoriteIcon}
+      onPress={() => {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+        onToggleFavorite(item._id, isFavorite);
+      }}
+    >
+      <Ionicons
+        name={isFavorite ? 'heart' : 'heart-outline'}
+        size={24}
+        color={isFavorite ? '#FF6B6B' : '#6c757d'}
+      />
+    </TouchableOpacity>
+    <Text style={styles.favoriteTitle} numberOfLines={1}>{item.name}</Text>
+    <Text style={styles.favoriteAuthor} numberOfLines={1}>by {item.author}</Text>
+  </TouchableOpacity>
+</Animated.View>
+
   
   );
 });
@@ -83,7 +84,7 @@ const OrderCard = React.memo(({ item }) => {
         cachePolicy="memory-disk"
       />
       <View style={styles.orderInfo}>
-        <Text style={styles.orderTitle} numberOfLines={1}>{book.title || 'Unknown Title'}</Text>
+        <Text style={styles.orderTitle} numberOfLines={1}>{book.name || 'Unknown Title'}</Text>
         <Text style={styles.orderAuthor} numberOfLines={1}>by {book.author || 'Unknown Author'}</Text>
         <Text style={styles.orderDate}>Ordered on: {date}</Text>
         <Text style={styles.orderPrice}>
@@ -131,28 +132,39 @@ const ProfileScreen = () => {
     try {
       setLoadingFavorites(true);
       setError(null);
-      const response = await axios.get('/v1/get-favourites-books', {
-        headers: { id: user._id },
+  
+      const response = await axios.get('http://localhost:4000/api/v1/get-favourites-books', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
       });
+  
       if (response.data.status === 'success') {
         setFavoriteBooks(response.data.data);
+        console.log("✅ Favorite books fetched:", response.data.data);
       } else {
+        console.warn("⚠️ Failed response status:", response.data.status);
         setError('Failed to fetch favorite books');
       }
+  
     } catch (error) {
-      console.error('Fetch favorites error:', error);
+      console.error('❌ Fetch favorites error:', error.message);
       setError('Network error fetching favorites');
     } finally {
       setLoadingFavorites(false);
     }
   };
+  
 
   const fetchOrderHistory = async () => {
     try {
       setLoadingOrders(true);
       setError(null);
-      const response = await axios.get('/v1/get-order-history', {
-        headers: { id: user._id },
+      const response = await axios.get('https://book-app-native.onrender.com/api/v1/get-order-history', {
+        headers: {
+          id: user._id,
+          Authorization: `Bearer ${token}`,
+        },
       });
       if (response.data.status === 'success') {
         setOrderHistory(response.data.data);
@@ -170,7 +182,7 @@ const ProfileScreen = () => {
   const toggleFavorite = async (bookId, isFavorite) => {
     try {
       setError(null);
-      const endpoint = isFavorite ? '/v1/remove-from-favourite' : '/v1/add-to-favourite';
+      const endpoint = isFavorite ? 'https://book-app-native.onrender.com/api/v1/remove-from-favourite' : 'https://book-app-native.onrender.com/api/v1/add-to-favourite';
       const response = await axios.put(endpoint, {}, {
         headers: { id: user._id, bookid: bookId },
       });
@@ -192,7 +204,7 @@ const ProfileScreen = () => {
     }
     try {
       setAddressError(null);
-      const response = await axios.put('/v1/update-address', { address }, {
+      const response = await axios.put('https://book-app-native.onrender.com/api/v1/update-address', { address }, {
         headers: { id: user._id },
       });
       if (response.status === 200) {
@@ -214,7 +226,7 @@ const ProfileScreen = () => {
     }
     try {
       setProfileError(null);
-      const response = await axios.put('/v1/update-profile', { username, email }, {
+      const response = await axios.put('https://book-app-native.onrender.com/api/v1/update-profile', { username, email }, {
         headers: { id: user._id },
       });
       if (response.status === 200) {

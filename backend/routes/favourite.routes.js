@@ -54,24 +54,39 @@ router.put('/add-to-favourite', authenticateToken, async (req, res) => {
 
 //get all books from favourites
 
- router.get('/get-favourites-books', authenticateToken, async (req, res) => {
-    
-        try {
-            const { id } = req.headers;
-            const userData = await User.findById(id).populate("favourites")
-          const favouriteBooks = userData.favourites;
-         return res.json({
-            status:"success",
-            data: favouriteBooks,
-            message: "Favourite books fetched successfully"
-   
+router.get('/get-favourites-books', authenticateToken,async (req, res) => {
+    console.log('🔥 Route hit!');
+    try {
+      console.log('Headers received:', req.headers); // 👈 Add this line
+  
+      const id = req.user.id; // ✅ Extracted from JWT
+    console.log('🧠 Authenticated user ID:', id);
+      console.log('Extracted ID:', id); // 👈 See if it's being pulled correctly
+  
+      const userData = await User.findById(id).populate("favourites");
+  
+      if (!userData) {
+        return res.status(404).json({
+          status: 'error',
+          message: 'User not found',
         });
-        } catch (error) {
-            console.log('Error getting favourites', error);
-           return  res.status(500).json(error);
-        }
-    });
-
+      }
+  
+      return res.json({
+        status: "success",
+        data: userData.favourites,
+        message: "Favourite books fetched successfully",
+      });
+  
+    } catch (error) {
+      console.log('Error getting favourites', error);
+      return res.status(500).json({
+        status: 'error',
+        message: 'Internal server error',
+      });
+    }
+  });
+  
 
 
 export default router;
