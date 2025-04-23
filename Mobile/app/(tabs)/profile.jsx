@@ -22,6 +22,7 @@ import { useAuthStore } from '@/store/authStore';
 import { styles } from '@/assets/styles/profile.styles';
 
 
+
 const shimmerColors = ['#e1e9ee', '#f2f8fc', '#e1e9ee'];
 
 // Memoized Favorite Book Card
@@ -43,7 +44,7 @@ const FavoriteBookCard = React.memo(({ item, isFavorite, onToggleFavorite, onPre
       >
             </TouchableOpacity>
         <Image
-          source={{ uri: item.coverImage || 'https://via.placeholder.com/150x200' }}
+          source={{ uri: item.url || 'https://via.placeholder.com/150x200' }}
           style={styles.favoriteImage}
           contentFit="cover"
           cachePolicy="memory-disk"
@@ -61,7 +62,7 @@ const FavoriteBookCard = React.memo(({ item, isFavorite, onToggleFavorite, onPre
             color={isFavorite ? '#FF6B6B' : '#6c757d'}
           />
         </TouchableOpacity>
-        <Text style={styles.favoriteTitle} numberOfLines={1}>{item.title}</Text>
+        <Text style={styles.favoriteTitle} numberOfLines={1}>{item.name}</Text>
         <Text style={styles.favoriteAuthor} numberOfLines={1}>by {item.author}</Text>
       </Animated.View>
   
@@ -70,13 +71,13 @@ const FavoriteBookCard = React.memo(({ item, isFavorite, onToggleFavorite, onPre
 
 // Memoized Order Card
 const OrderCard = React.memo(({ item }) => {
-  const book = item.book || {};
+  const book = item.name || {};
   const date = new Date(item.createdAt).toLocaleDateString();
 
   return (
     <Animated.View style={styles.orderCard} entering={FadeIn}>
       <Image
-        source={{ uri: book.coverImage || 'https://via.placeholder.com/80x120' }}
+        source={{ uri: book.url || 'https://via.placeholder.com/80x120' }}
         style={styles.orderImage}
         contentFit="cover"
         cachePolicy="memory-disk"
