@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#f8f9fa',
   },
   header: {
     flexDirection: 'row',
@@ -19,9 +19,9 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
   },
   headerTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333',
+    fontSize: 26,
+    fontWeight: '700',
+    color: '#2c3e50',
   },
   headerRight: {
     flexDirection: 'row',
@@ -29,9 +29,12 @@ const styles = StyleSheet.create({
   },
   userGreeting: {
     fontSize: 16,
-    color: '#333',
+    color: '#2c3e50',
     marginRight: 15,
     fontWeight: '500',
+  },
+  headerIcon: {
+    marginRight: 15,
   },
   loadingContainer: {
     flex: 1,
@@ -41,7 +44,7 @@ const styles = StyleSheet.create({
   loadingText: {
     marginTop: 10,
     fontSize: 16,
-    color: '#333',
+    color: '#2c3e50',
   },
   errorContainer: {
     flex: 1,
@@ -51,34 +54,55 @@ const styles = StyleSheet.create({
   },
   errorText: {
     fontSize: 16,
-    color: '#FF6B6B',
+    color: '#e63946',
     marginVertical: 10,
     textAlign: 'center',
   },
+  errorSubText: {
+    fontSize: 14,
+    color: '#6c757d',
+    textAlign: 'center',
+    marginBottom: 20,
+  },
   retryButton: {
-    backgroundColor: '#5046E5',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 20,
+    backgroundColor: '#4361ee',
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 25,
   },
   retryButtonText: {
     color: '#fff',
     fontSize: 16,
     fontWeight: '600',
   },
+  emptyText: {
+    fontSize: 16,
+    color: '#6c757d',
+    textAlign: 'center',
+    marginVertical: 20,
+  },
+  section: {
+    paddingHorizontal: 20,
+    marginBottom: 20,
+  },
+  sectionTitle: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#2c3e50',
+    marginBottom: 15,
+  },
   bannerContainer: {
     paddingHorizontal: 10,
-    marginVertical: 20,
   },
   bannerCard: {
     width: 300,
-    height: 150,
+    height: 160,
     marginRight: 15,
     borderRadius: 15,
     overflow: 'hidden',
     elevation: 5,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.2,
     shadowRadius: 5,
   },
@@ -88,24 +112,74 @@ const styles = StyleSheet.create({
   },
   bannerOverlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0, 0, 0, 0.3)',
     justifyContent: 'flex-end',
-    padding: 10,
+    padding: 15,
   },
   bannerText: {
     color: '#fff',
-    fontSize: 18,
-    fontWeight: '600',
+    fontSize: 20,
+    fontWeight: '700',
+    textShadowColor: 'rgba(0, 0, 0, 0.5)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
   },
-  section: {
-    paddingHorizontal: 20,
+  featuredCard: {
+    borderRadius: 15,
+    overflow: 'hidden',
+    marginHorizontal: 10,
     marginBottom: 20,
+    elevation: 6,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
   },
-  sectionTitle: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 15,
+  featuredImage: {
+    width: '100%',
+    height: 250,
+  },
+  featuredOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: 'flex-end',
+    padding: 20,
+  },
+  featuredTitle: {
+    color: '#fff',
+    fontSize: 24,
+    fontWeight: '700',
+    marginBottom: 5,
+    textShadowColor: 'rgba(0, 0, 0, 0.5)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
+  },
+  featuredAuthor: {
+    color: '#f1f1f1',
+    fontSize: 16,
+    marginBottom: 10,
+  },
+  featuredPrice: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#ffd166',
+    marginRight: 10,
+  },
+  featuredOriginalPrice: {
+    fontSize: 16,
+    color: '#f1f1f1',
+    textDecorationLine: 'line-through',
+  },
+  readNowButton: {
+    backgroundColor: '#4361ee',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 20,
+    alignSelf: 'flex-start',
+    marginTop: 10,
+  },
+  readNowText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
   },
   horizontalList: {
     marginBottom: 10,
@@ -114,20 +188,20 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   categoryButton: {
-    paddingVertical: 8,
-    paddingHorizontal: 15,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
     backgroundColor: '#fff',
     borderRadius: 20,
     marginRight: 10,
     elevation: 2,
   },
   selectedCategoryButton: {
-    backgroundColor: '#5046E5',
+    backgroundColor: '#4361ee',
   },
   categoryText: {
     fontSize: 16,
-    color: '#333',
-    fontWeight: '500',
+    color: '#2c3e50',
+    fontWeight: '600',
   },
   selectedCategoryText: {
     color: '#fff',
@@ -162,7 +236,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 10,
     left: 10,
-    backgroundColor: '#FF6B6B',
+    backgroundColor: '#e63946',
     paddingVertical: 4,
     paddingHorizontal: 8,
     borderRadius: 10,
@@ -178,16 +252,16 @@ const styles = StyleSheet.create({
   bookTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333',
+    color: '#2c3e50',
     marginBottom: 5,
   },
   bookAuthor: {
     fontSize: 14,
-    color: '#666',
+    color: '#6c757d',
     marginBottom: 5,
   },
   categoryBadge: {
-    backgroundColor: '#E8E8E8',
+    backgroundColor: '#e9ecef',
     borderRadius: 10,
     paddingVertical: 4,
     paddingHorizontal: 8,
@@ -196,7 +270,7 @@ const styles = StyleSheet.create({
   },
   categoryBadgeText: {
     fontSize: 12,
-    color: '#333',
+    color: '#2c3e50',
     fontWeight: '500',
   },
   priceContainer: {
@@ -205,13 +279,13 @@ const styles = StyleSheet.create({
   },
   discountedPrice: {
     fontSize: 16,
-    fontWeight: 'bold',
-    color: '#5046E5',
+    fontWeight: '700',
+    color: '#4361ee',
     marginRight: 10,
   },
   originalPrice: {
     fontSize: 14,
-    color: '#999',
+    color: '#6c757d',
     textDecorationLine: 'line-through',
   },
 });

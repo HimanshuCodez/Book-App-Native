@@ -1,113 +1,37 @@
-// app/styles/books.styles.js
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet } from 'react-native';
 
-const { width, height } = Dimensions.get('window');
-
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F8F9FA',
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F8F9FA',
-  },
-  loadingText: {
-    marginTop: 12,
-    fontSize: 16,
-    color: '#5046E5',
-    fontWeight: '500',
+    backgroundColor: '#f8f9fa',
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 20,
-    paddingVertical: 16,
-    backgroundColor: 'white',
-    borderBottomWidth: 1,
-    borderBottomColor: '#EAEAEA',
-  },
-  headerTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333',
-  },
-  backButton: {
-    padding: 4,
-  },
-  favoriteButton: {
-    padding: 4,
-  },
-  listContainer: {
-    padding: 16,
-    paddingBottom: 30,
-  },
-  bookCard: {
-    flexDirection: 'row',
-    backgroundColor: 'white',
-    borderRadius: 12,
-    marginBottom: 16,
+    paddingVertical: 15,
+    backgroundColor: '#fff',
+    elevation: 4,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 8,
-    elevation: 3,
-    overflow: 'hidden',
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
   },
-  bookImageContainer: {
-    width: 100,
-    height: 150,
+  headerTitle: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#2c3e50',
   },
-  bookImage: {
-    width: '100%',
-    height: '100%',
-  },
-  bookInfo: {
+  loadingContainer: {
     flex: 1,
-    padding: 16,
-    justifyContent: 'flex-start',
-  },
-  bookTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 14,
-    color: '#666',
-    marginBottom: 8,
-  },
-  authorText: {
-    fontSize: 16,
-    color: '#666',
-    marginBottom: 16,
-  },
-  ratingContainer: {
-    flexDirection: 'row',
+    justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 8,
   },
-  ratingText: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: '#333',
-    marginLeft: 4,
-  },
-  genreContainer: {
-    backgroundColor: '#F0F0F0',
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 12,
-    alignSelf: 'flex-start',
-    marginTop: 8,
-  },
-  genreText: {
-    fontSize: 12,
-    color: '#555',
+  loadingText: {
+    marginTop: 10,
+    fontSize: 16,
+    color: '#2c3e50',
   },
   errorContainer: {
     flex: 1,
@@ -117,137 +41,103 @@ export const styles = StyleSheet.create({
   },
   errorText: {
     fontSize: 16,
-    color: '#666',
+    color: '#e63946',
+    marginVertical: 10,
     textAlign: 'center',
-    marginTop: 16,
   },
   retryButton: {
-    marginTop: 20,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    backgroundColor: '#5046E5',
-    borderRadius: 8,
+    backgroundColor: '#4361ee',
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 25,
   },
   retryButtonText: {
-    color: 'white',
+    color: '#fff',
     fontSize: 16,
-    fontWeight: '500',
-  },
-  emptyContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 60,
-  },
-  emptyText: {
-    fontSize: 16,
-    color: '#666',
-    marginTop: 12,
-  },
-  
-  // Book Details Screen Styles
-  scrollView: {
-    flex: 1,
-  },
-  bookImageSection: {
-    alignItems: 'center',
-    paddingVertical: 24,
-    backgroundColor: 'white',
+    fontWeight: '600',
   },
   bookImage: {
-    width: width * 0.4,
-    height: height * 0.3,
-    borderRadius: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 8,
-    elevation: 5,
+    width: '100%',
+    height: 400,
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
   },
-  infoSection: {
+  detailsContainer: {
     padding: 20,
-    backgroundColor: 'white',
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
-    marginTop: -20,
   },
-  detailsRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    borderWidth: 1,
-    borderColor: '#EAEAEA',
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 24,
-    backgroundColor: '#FAFAFA',
+  bookTitle: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#2c3e50',
+    marginBottom: 10,
   },
-  detailItem: {
-    alignItems: 'center',
-    flex: 1,
-  },
-  detailLabel: {
-    fontSize: 12,
-    color: '#888',
-    marginBottom: 4,
-  },
-  detailValue: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#333',
-  },
-  section: {
-    marginBottom: 24,
-  },
-  sectionTitle: {
+  bookAuthor: {
     fontSize: 18,
-    fontWeight: '600',
-    color: '#333',
-    marginBottom: 12,
+    color: '#6c757d',
+    marginBottom: 10,
   },
-  descriptionText: {
-    fontSize: 15,
-    lineHeight: 22,
-    color: '#555',
+  categoryBadge: {
+    backgroundColor: '#e9ecef',
+    borderRadius: 10,
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    alignSelf: 'flex-start',
+    marginBottom: 15,
   },
-  detailsTable: {
-    borderWidth: 1,
-    borderColor: '#EAEAEA',
-    borderRadius: 8,
-    overflow: 'hidden',
+  categoryBadgeText: {
+    fontSize: 12,
+    color: '#2c3e50',
+    fontWeight: '500',
   },
-  detailsTableRow: {
+  priceContainer: {
     flexDirection: 'row',
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#EAEAEA',
-    backgroundColor: '#FFFFFF',
+    alignItems: 'center',
+    marginBottom: 15,
   },
-  detailsTableLabel: {
-    fontSize: 14,
-    color: '#666',
+  discountedPrice: {
+    fontSize: 22,
+    fontWeight: '700',
+    color: '#4361ee',
+    marginRight: 10,
+  },
+  originalPrice: {
+    fontSize: 18,
+    color: '#6c757d',
+    textDecorationLine: 'line-through',
+  },
+  description: {
+    fontSize: 16,
+    color: '#2c3e50',
+    lineHeight: 24,
+    marginBottom: 20,
+  },
+  infoRow: {
+    flexDirection: 'row',
+    marginBottom: 10,
+  },
+  infoLabel: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#2c3e50',
+    width: 100,
+  },
+  infoValue: {
+    fontSize: 16,
+    color: '#2c3e50',
     flex: 1,
   },
-  detailsTableValue: {
-    fontSize: 14,
-    color: '#333',
-    fontWeight: '500',
-    flex: 2,
-  },
-  bottomBar: {
-    backgroundColor: 'white',
-    padding: 16,
-    borderTopWidth: 1,
-    borderTopColor: '#EAEAEA',
-  },
-  readButton: {
-    backgroundColor: '#5046E5',
-    borderRadius: 12,
-    paddingVertical: 16,
+  addToCartButton: {
+    backgroundColor: '#4361ee',
+    paddingVertical: 15,
+    borderRadius: 25,
     alignItems: 'center',
+    marginTop: 20,
   },
-  readButtonText: {
-    color: 'white',
-    fontSize: 16,
+  addToCartText: {
+    color: '#fff',
+    fontSize: 18,
     fontWeight: '600',
   },
 });
+
+export default styles;
