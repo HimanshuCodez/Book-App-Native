@@ -18,7 +18,7 @@ import * as WebBrowser from 'expo-web-browser';
 import Animated, { useSharedValue, useAnimatedStyle, withSpring, FadeIn } from 'react-native-reanimated';
 import styles from '@/assets/styles/detailsbook.styles';
 import ExpandableText from '@/components/ExpandableText';
-
+import { useAuthStore } from '@/store/authStore';
 
 // Memoized Book Image Component
 const BookImage = React.memo(({ uri }) => (
@@ -35,20 +35,29 @@ const BookDetailsScreen = () => {
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isFavorite, setIsFavorite] = useState(false);
   const router = useRouter();
 
-  // Animation values for buttons
+  // Animation values
   const cartScale = useSharedValue(1);
   const readScale = useSharedValue(1);
+  const favoriteScale = useSharedValue(1);
   const cartAnimatedStyle = useAnimatedStyle(() => ({
     transform: [{ scale: cartScale.value }],
   }));
   const readAnimatedStyle = useAnimatedStyle(() => ({
     transform: [{ scale: readScale.value }],
   }));
+  const favoriteAnimatedStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: favoriteScale.value }],
+  }));
 
+  // Assume you have a way to get user ID and token
+  const {user,token}=useAuthStore()
+  const userId = user
   useEffect(() => {
     fetchBook();
+    checkFavoriteStatus();
   }, [id]);
 
   const fetchBook = async () => {
@@ -69,10 +78,55 @@ const BookDetailsScreen = () => {
     }
   };
 
+  const checkFavoriteStatus = async () => {
+    try {
+      // You might need an API to check if book is in favorites
+      // For now, we'll assume it comes with book data or check separately
+      // If your API provides favorite status with book data, use that
+      // const response = await axios.get(`API_TO_CHECK_FAVORITE_STATUS`, {
+      //   headers: { id: userId, Authorization: `Bearer ${token}` }
+      // });
+      // setIsFavorite(response.data.isFavorite);
+    } catch (error) {
+      console.error('Check favorite error:', error);
+    }
+  };
+
+  const toggleFavorite = async () => {
+    try {
+      favoriteScale.value = withSpring(0.95, {}, () => {
+        favoriteScale.value = withSpring(1);
+      });
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+
+      const endpoint = isFavorite
+        ? 'https://book-app-native.onrender.com/api/v1/remove-from-favourite'
+        : 'https://book-app-native.onrender.com/api/v1/add-to-favourite';
+
+      const response = await axios.put(
+        endpoint,
+        {},
+        {
+          headers: {
+            bookid: id,
+            id: userId,
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        setIsFavorite(!isFavorite);
+      }
+    } catch (error) {
+      console.error('Toggle favorite error:', error);
+      setError('Failed to update favorites. Please try again.');
+    }
+  };
+
   const openPDF = async () => {
     if (book?.pdfUrl) {
       try {
-        // Use Google Docs Viewer for cross-platform PDF viewing
         const pdfViewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(book.pdfUrl)}`;
         await WebBrowser.openBrowserAsync(pdfViewerUrl);
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
@@ -89,10 +143,7 @@ const BookDetailsScreen = () => {
     return (
       <SafeAreaView style={styles.container}>
         <StatusBar barStyle="light-content" />
-        <LinearGradient
-          colors={['#5046E5', '#7B3FE4']}
-          style={styles.header}
-        >
+        <LinearGradient colors={['#5046E5', '#7B3FE4']} style={styles.header}>
           <View style={styles.headerContent}>
             <TouchableOpacity onPress={() => router.back()}>
               <Ionicons name="arrow-back" size={24} color="#fff" />
@@ -115,10 +166,7 @@ const BookDetailsScreen = () => {
     return (
       <SafeAreaView style={styles.container}>
         <StatusBar barStyle="light-content" />
-        <LinearGradient
-          colors={['#5046E5', '#7B3FE4']}
-          style={styles.header}
-        >
+        <LinearGradient colors={['#5046E5', '#7B3FE4']} style={styles.header}>
           <View style={styles.headerContent}>
             <TouchableOpacity onPress={() => router.back()}>
               <Ionicons name="arrow-back" size={24} color="#fff" />
@@ -148,19 +196,17 @@ const BookDetailsScreen = () => {
   }
 
   const price = book.price != null && typeof book.price === 'number' ? book.price : 0;
-  const discountedPrice = book.discountedPrice != null && typeof book.discountedPrice === 'number'
-    ? book.discountedPrice
-    : price;
+  const discountedPrice =
+    book.discountedPrice != null && typeof book.discountedPrice === 'number'
+      ? book.discountedPrice
+      : price;
   const hasDiscount = book.discountPercent > 0 && discountedPrice < price;
   const rating = book.rating || Math.floor(Math.random() * 5) + 1;
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
-      <LinearGradient
-        colors={['#5046E5', '#7B3FE4']}
-        style={styles.header}
-      >
+      <LinearGradient colors={['#5046E5', '#7B3FE4']} style={styles.header}>
         <View style={styles.headerContent}>
           <TouchableOpacity onPress={() => router.back()}>
             <Ionicons name="arrow-back" size={24} color="#fff" />
@@ -179,6 +225,19 @@ const BookDetailsScreen = () => {
               <Text style={styles.discountText}>{book.discountPercent}% OFF</Text>
             </View>
           )}
+          <Animated.View style={[styles.favoriteButton, favoriteAnimatedStyle]}>
+            <TouchableOpacity
+              onPress={toggleFavorite}
+              activeOpacity={0.7}
+            >
+              <Ionicons
+                name={isFavorite ? 'heart' : 'heart-outline'}
+                size={30}
+                color={isFavorite ? '#FF6B6B' : '#fff'}
+                style={styles.favoriteIcon}
+              />
+            </TouchableOpacity>
+          </Animated.View>
         </Animated.View>
         <Animated.View style={styles.detailsContainer} entering={FadeIn.delay(200)}>
           <Text style={styles.bookTitle}>{book.name}</Text>
@@ -211,7 +270,6 @@ const BookDetailsScreen = () => {
             )}
           </View>
           <ExpandableText text={book.description} />
-
           <View style={styles.infoRow}>
             <Text style={styles.infoLabel}>Language:</Text>
             <Text style={styles.infoValue}>{book.language || 'N/A'}</Text>

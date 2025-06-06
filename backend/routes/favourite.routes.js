@@ -57,11 +57,8 @@ router.put('/add-to-favourite', authenticateToken, async (req, res) => {
 router.get('/get-favourites-books', authenticateToken,async (req, res) => {
     console.log('🔥 Route hit!');
     try {
-      console.log('Headers received:', req.headers); // 👈 Add this line
   
       const id = req.user.id; // ✅ Extracted from JWT
-    console.log('🧠 Authenticated user ID:', id);
-      console.log('Extracted ID:', id); // 👈 See if it's being pulled correctly
   
       const userData = await User.findById(id).populate("favourites");
   

@@ -168,7 +168,7 @@ const ProfileScreen = () => {
         },
         
       });
-      console.log(response);
+     
       if (response.data.status === 'success') {
         setOrderHistory(response.data.data);
       } else {
